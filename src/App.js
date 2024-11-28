@@ -35,7 +35,7 @@ const App = () => {
     try {
       // Submit data to Google Apps Script
       const response = await fetch(
-        "https://script.google.com/macros/s/AKfycbzjSzcHPzPqJZ3phbatH0fBbCe9NV3FaeUuA7oICm6tVgGDL3FczkWDRjP-5Xeola6Fzw/exec", 
+        "https://script.google.com/macros/s/AKfycbw028NfKVsJda2mdwCCT4NW6Tn-x_iqfbEOtFMD4o1qn2RVksseFeFKs07umYTWWCtLqQ/exec", 
         {
           method: "POST",
           headers: {
