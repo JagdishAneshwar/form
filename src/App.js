@@ -44,7 +44,12 @@ const App = () => {
           body: JSON.stringify(payload),
         }
       );
-      
+
+      // Ensure the response is successful
+      if (!response.ok) {
+        throw new Error("Network response was not ok.");
+      }
+
       const result = await response.json();
 
       if (result.status === "success") {
