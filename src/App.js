@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
 const App = () => {
-  const [rating, setRating] = useState(0); // Default value set to 0
+  const [rating, setRating] = useState(null);
   const [feedback, setFeedback] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
   // Handle rating change
   const handleRatingChange = (e) => {
-    setRating(Number(e.target.value)); // Ensure rating is a number
+    setRating(Number(e.target.value));
     setFeedback(""); // Reset feedback when rating changes
     setSubmitted(false); // Reset submission state
   };
@@ -21,7 +21,7 @@ const App = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (rating === 0) {
+    if (!rating) {
       alert("Please select a rating before submitting.");
       return;
     }
@@ -33,17 +33,14 @@ const App = () => {
     };
 
     try {
-      // Submit data to Google Apps Script
-      const response = await fetch(
-        "https://script.google.com/macros/s/AKfycbw028NfKVsJda2mdwCCT4NW6Tn-x_iqfbEOtFMD4o1qn2RVksseFeFKs07umYTWWCtLqQ/exec", 
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json", // Ensure this is correct
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      // Use a relative API URL for the proxy server (ensure you configure the proxy in package.json)
+      const response = await fetch("/api/submit-feedback", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
       // Ensure the response is successful
       if (!response.ok) {
@@ -90,7 +87,6 @@ const App = () => {
                 type="radio"
                 name="rating"
                 value={num}
-                checked={rating === num} // Ensures radio button reflects the current rating
                 onChange={handleRatingChange}
               />
               {num}
@@ -98,7 +94,7 @@ const App = () => {
           ))}
         </div>
 
-        {rating <= 3 && rating !== 0 && (
+        {rating <= 3 && rating !== null && (
           <div style={{ marginTop: "20px" }}>
             <h3>We’re Sorry to Hear That</h3>
             <textarea
